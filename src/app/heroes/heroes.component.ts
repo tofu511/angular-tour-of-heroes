@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero'; // Heroクラスをインポート
-import {HEROES } from '../mock-heroes';
+import { HeroService } from '../hero.service';
 
 // @Componentは、コンポーネントのAngularメタデータを指定するデコレータ関数
 @Component({
@@ -14,15 +14,22 @@ import {HEROES } from '../mock-heroes';
 export class HeroesComponent implements OnInit {
 
   selectedHero: Hero;
-  heroes = HEROES;
+  heroes : Hero[];
 
-  constructor() { }
+  constructor(private heroService: HeroService) { }
 
   ngOnInit() {
+    this.getHeroes();
   }
 
   onSelect(hero: Hero): void {
     this.selectedHero = hero;
   }
+
+  getHeroes(): void {
+    this.heroService.getHeroes()
+      .subscribe(heroes => this.heroes = heroes);
+  }
+
 }
 
